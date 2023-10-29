@@ -17,8 +17,9 @@ public class Main {
         for (MyNode n : MyNode.allNodes)
             System.out.println(n);
         Genetic genetic = new Genetic(MyNode.allNodes);
-        Map<MyPair, Integer> integerMap = genetic.cutSize();
+        System.out.println("standardDeviationForTableCuts = " + genetic.standardDeviationForTableCuts());
+        /*Map<MyPair, Integer> integerMap = genetic.cutSize();
         for (Map.Entry<MyPair, Integer> entry : integerMap.entrySet())
-            System.out.println("" + entry.getKey() + ":" + entry.getValue());
+            System.out.println("" + entry.getKey() + ":" + entry.getValue());*/
     }
 }

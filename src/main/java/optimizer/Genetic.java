@@ -42,24 +42,29 @@ public class Genetic {
 
     public double standardDeviationForTableCuts() {
         int[][] tableCut = new int[partitionNumber][partitionNumber];
-
+        int totalCut = 0;
         //Map<MyPair, Integer> mapSizes = new HashMap<>();
         for (MyNode n : partitions)
             for (MyNode m : n.nodes)
                 if (n.part != m.part) {
-                    tableCut[n.part][m.part]++;
-                    /*MyPair t1 = new MyPair(n.part, m.part);
-                    if (mapSizes.get(t1) == null) mapSizes.put(t1, 1);
-                    else mapSizes.put(t1, mapSizes.get(t1) + 1);*/
+                    tableCut[n.part - 1][m.part - 1]++;
                 }
-        for (int z1 = 0; z1 < partitionNumber; z1++) {
-            for (int z2 = 0; z2 < partitionNumber; z2++) {
-                System.out.print(tableCut[z1][z2]);
+        for (int t1 = 0; t1 < partitionNumber; t1++) {
+            for (int t2 = 0; t2 < partitionNumber; t2++) {
+                totalCut += tableCut[t1][t2];
+                System.out.print(tableCut[t1][t2]);
                 System.out.print('\t');
             }
             System.out.println();
         }
-        return 0;
+        double average = (double) totalCut / ((partitionNumber - 1) * (partitionNumber - 1));
+        System.out.println("total cut = " + totalCut);
+        System.out.println("average = " + average);
+        double rslt = 0;
+        for (int t1 = 0; t1 < partitionNumber; t1++)
+            for (int t2 = 0; t2 < partitionNumber; t2++)
+                if (t1 != t2) rslt += Math.abs(average - tableCut[t1][t2]);
+        return rslt;
     }
 
     public int totalCutSize(Map<MyPair, Integer> inp) {
