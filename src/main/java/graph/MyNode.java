@@ -1,4 +1,4 @@
-package pkg01;
+package graph;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,32 +10,33 @@ import java.util.stream.Collectors;
  * Created by Amir on 10/3/2023.
  */
 public class MyNode {
-    public static List<MyNode> allNodes = new ArrayList<>();
+    //public static List<MyNode> allNodes = new ArrayList<>();
 
     @JsonIgnoreProperties({"value"})
     public Integer value;
     public boolean isBlocking = false;
     public Integer part;
-    public List<MyNode> nodes = new ArrayList<>();
+    public List<Integer> childs = new ArrayList<>();
 
-    public MyNode(List<MyNode> nodes, int value, Integer part, boolean isBlocking) {
+    public MyNode(List<Integer> childs, int value, Integer part, boolean isBlocking) {
         this();
-        this.nodes = nodes;
+        this.childs = childs;
         this.value = value;
         this.part = part;
         this.isBlocking = isBlocking;
     }
 
     public MyNode() {
-        allNodes.add(this);
+        //allNodes.add(this);
     }
 
     @Override
     public String toString() {
         return "\"MyNode\":{" +
                 "\"value\":" + value +
+                "\"partition\":" + part +
                 ", \"isBlocking\":" + isBlocking +
-                ", \"nodes\":[" + nodes.stream().map(n -> "{\"id\":" + String.valueOf(n.value) + "}").collect(Collectors.joining(",")) +
+                ", \"childs\":[" + childs.stream().map(n -> "{\"id\":" + String.valueOf(n) + "}").collect(Collectors.joining(",")) +
                 "]}";
     }
 }

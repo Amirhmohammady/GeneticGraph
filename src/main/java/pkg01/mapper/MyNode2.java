@@ -1,4 +1,4 @@
-package pkg01;
+package pkg01.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,11 @@ import java.util.List;
  * Created by Amir on 10/3/2023.
  */
 public class MyNode2 {
+    public Integer value;
+    public boolean isBlocking = false;
+    public Integer part;
+    public List<Integer> nodes = new ArrayList<>();
+
     public MyNode2() {
     }
 
@@ -16,9 +21,4 @@ public class MyNode2 {
         this.part = part;
         this.isBlocking = isBlocking;
     }
-
-    public Integer value;
-    public boolean isBlocking = false;
-    public Integer part;
-    public List<Integer> nodes = new ArrayList<>();
 }
