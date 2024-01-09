@@ -14,9 +14,9 @@ public class Mapper {
         return new MyNode(mapListInteger(mg, inp.childs), inp.value, inp.part, inp.isBlocking);
     }*/
 
-    public static MyNode mapNull(MyNode2 inp) {
+    /*public static MyNode mapNull(MyNode2 inp) {
         return new MyNode(null, inp.value, inp.part, inp.isBlocking);
-    }
+    }*/
 
     /*public static MyNode2 map(MyNode inp) {
         return new MyNode2(mapListMyNode(inp.childs), inp.value, inp.part, inp.isBlocking);

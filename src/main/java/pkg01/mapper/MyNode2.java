@@ -10,13 +10,13 @@ public class MyNode2 {
     public Integer value;
     public boolean isBlocking = false;
     public Integer part;
-    public List<Integer> nodes = new ArrayList<>();
+    public List<Integer> childs = new ArrayList<>();
 
     public MyNode2() {
     }
 
-    public MyNode2(List<Integer> nodes, int value, Integer part, boolean isBlocking) {
-        this.nodes = nodes;
+    public MyNode2(List<Integer> childs, int value, Integer part, boolean isBlocking) {
+        this.childs = childs;
         this.value = value;
         this.part = part;
         this.isBlocking = isBlocking;

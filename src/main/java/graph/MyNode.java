@@ -18,11 +18,11 @@ public class MyNode {
     //public Integer part;
     public List<Integer> childs = new ArrayList<>();
 
-    public MyNode(List<Integer> childs, int value, Integer part, boolean isBlocking) {
+    public MyNode(List<Integer> childs, int value, boolean isBlocking) {
         this();
         this.childs = childs;
         this.value = value;
-        this.part = part;
+        //this.part = part;
         this.isBlocking = isBlocking;
     }
 
@@ -34,7 +34,7 @@ public class MyNode {
     public String toString() {
         return "\"MyNode\":{" +
                 "\"value\":" + value +
-                "\"partition\":" + part +
+                //"\"partition\":" + part +
                 ", \"isBlocking\":" + isBlocking +
                 ", \"childs\":[" + childs.stream().map(n -> "{\"id\":" + String.valueOf(n) + "}").collect(Collectors.joining(",")) +
                 "]}";

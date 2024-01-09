@@ -14,8 +14,9 @@ public class MyGraph {
     private static int totalYal = 0;
     public List<Integer> part = new ArrayList<>();
 
-    public MyGraph(List<MyNode> nodes) {
+    public MyGraph(List<MyNode> nodes,Integer partitionNumber) {
         this.nodes = nodes;
+        this.partitionNumber = partitionNumber;
         for (MyNode n : nodes) {
             //if (n.part > partitionNumber) partitionNumber = n.part;
             totalYal += n.childs.size();
@@ -23,7 +24,7 @@ public class MyGraph {
     }
 
     public MyGraph(MyGraph inp) {
-        nodes = new ArrayList<>(inp.nodes.size());
+        part = new ArrayList<>(inp.nodes.size());
         for (int t1 = 0; t1 < inp.nodes.size(); t1++) {
             part.add(new Integer(0));
             part.set(t1, inp.part.get(t1));
@@ -60,10 +61,10 @@ public class MyGraph {
         int[][] tableCut = new int[partitionNumber][partitionNumber];
         int totalCut = 0;
         //Map<MyPair, Integer> mapSizes = new HashMap<>();
-        for (MyNode n : nodes)
-            for (Integer m : n.childs)
-                if (n.part != nodes.get(m - 1).part) {
-                    tableCut[n.part - 1][nodes.get(m - 1).part - 1]++;
+        for (int n = 0; n < nodes.size(); n++)
+            for (Integer m : nodes.get(n).childs)
+                if (!part.get(n).equals(part.get(m - 1))) {
+                    tableCut[part.get(n)-1][part.get(m - 1) - 1]++;
                 }
         for (int t1 = 0; t1 < partitionNumber; t1++) {
             for (int t2 = 0; t2 < partitionNumber; t2++) {
@@ -85,9 +86,9 @@ public class MyGraph {
 
     public int totalCutSize() {
         int rslt = 0;
-        for (MyNode m : nodes) {
-            for (Integer n : m.childs) {
-                if (m.part != nodes.get(n - 1).part) rslt++;
+        for (int m = 0; m < part.size(); m++) {
+            for (Integer n : nodes.get(m).childs) {
+                if (part.get(m) != part.get(n - 1)) rslt++;
             }
         }
         /*for (Map.Entry<MyPair, Integer> entry : inp.entrySet()) {
@@ -106,9 +107,9 @@ public class MyGraph {
 
     public int getMaxHop() {
         Pointer<Integer> maxHop = new Pointer<>(new Integer(0));
-        for (MyNode n : this.nodes) {
-            if (n.isBlocking) {
-                List<MyNode> nodeList = new ArrayList<>();
+        for (int n = 0; n < nodes.size(); n++) {
+            if (nodes.get(n).isBlocking) {
+                List<Integer> nodeList = new ArrayList<>();
                 nodeList.add(n);
                 checkNextChildForMaxHops(nodeList, maxHop);
             }
@@ -116,32 +117,32 @@ public class MyGraph {
         return maxHop.getValue();
     }
 
-    private void checkNextChildForMaxHops(List<MyNode> list, Pointer<Integer> maxHop) {
-        for (Integer n : list.get(list.size() - 1).childs) {
+    private void checkNextChildForMaxHops(List<Integer> list, Pointer<Integer> maxHop) {
+        for (Integer n : nodes.get(list.get(list.size() - 1)).childs) {
             int t1;
             Integer hops = 0;
-            int lastPartition = list.get(0).part;
+            int lastPartition = part.get(list.get(0));
             for (t1 = 0; t1 < list.size(); t1++) {
-                if (lastPartition != list.get(t1).part) {
+                if (lastPartition != part.get(list.get(t1))) {
                     hops++;
-                    lastPartition = list.get(t1).part;
+                    lastPartition = part.get(list.get(t1));
                 }
-                if (nodes.get(n - 1) == list.get(t1)) break;
+                if (n - 1 == t1) break;
             }
             //if n not be in list{
             if (!(t1 < list.size())) {
                 //if n is blocking{
                 if (nodes.get(n - 1).isBlocking) {
-                    if (lastPartition != nodes.get(n - 1).part) hops++;
+                    if (lastPartition != part.get(n - 1)) hops++;
                     if (hops > maxHop.getValue()) maxHop.setValue(hops);
                     System.out.print("==>>hop: ");
-                    for (MyNode t2 : list) {
-                        System.out.print(t2.value + " ");
+                    for (Integer t2 : list) {
+                        System.out.print(nodes.get(t2).value + " ");
                     }
                     System.out.println(nodes.get(n - 1).value);
                     System.out.println(" hops:" + hops);
                 } else {
-                    list.add(nodes.get(n - 1));
+                    list.add((n - 1));
                     checkNextChildForMaxHops(list, maxHop);
                     //remove the last element
                     list.remove(list.size() - 1);
