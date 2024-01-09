@@ -15,7 +15,7 @@ public class MyNode {
     @JsonIgnoreProperties({"value"})
     public Integer value;
     public boolean isBlocking = false;
-    public Integer part;
+    //public Integer part;
     public List<Integer> childs = new ArrayList<>();
 
     public MyNode(List<Integer> childs, int value, Integer part, boolean isBlocking) {

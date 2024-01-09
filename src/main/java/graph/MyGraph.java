@@ -10,30 +10,23 @@ import java.util.*;
 public class MyGraph {
     //public List<MyNode> allNodes = new ArrayList<>();
     public static Integer partitionNumber = 0;
-    public List<MyNode> nodes = new ArrayList<>();
-    private int totalYal = 0;
+    public static List<MyNode> nodes = new ArrayList<>();
+    private static int totalYal = 0;
+    public List<Integer> part = new ArrayList<>();
 
     public MyGraph(List<MyNode> nodes) {
         this.nodes = nodes;
         for (MyNode n : nodes) {
-            if (n.part > partitionNumber) partitionNumber = n.part;
+            //if (n.part > partitionNumber) partitionNumber = n.part;
             totalYal += n.childs.size();
         }
     }
 
     public MyGraph(MyGraph inp) {
-        //partitionNumber = inp.partitionNumber;
-        totalYal = inp.totalYal;
-        //copy childs
         nodes = new ArrayList<>(inp.nodes.size());
         for (int t1 = 0; t1 < inp.nodes.size(); t1++) {
-            nodes.add(new MyNode());
-            nodes.get(t1).value = inp.nodes.get(t1).value;
-            nodes.get(t1).isBlocking = inp.nodes.get(t1).isBlocking;
-            nodes.get(t1).part = inp.nodes.get(t1).part;
-            for (int t2 = 0; t2 < inp.nodes.get(t1).childs.size(); t2++) {
-                nodes.get(t1).childs.add(inp.nodes.get(t1).childs.get(t2));
-            }
+            part.add(new Integer(0));
+            part.set(t1, inp.part.get(t1));
         }
     }
 
@@ -48,15 +41,18 @@ public class MyGraph {
     public boolean checkSizeTelorance(double telorance) {
         int maxSize = 0;
         Map<Integer, Integer> mapSizes = new HashMap<>();
-        for (MyNode n : nodes)
-            if (mapSizes.get(n.part) == null) {
-                mapSizes.put(n.part, 1);
+        for (Integer n : part)
+            if (mapSizes.get(n) == null) {
+                mapSizes.put(n, 1);
                 if (1 > maxSize) maxSize = 1;
             } else {
-                mapSizes.put(n.part, mapSizes.get(n.part) + 1);
-                if (mapSizes.get(n.part) > maxSize) maxSize = mapSizes.get(n.part);
+                mapSizes.put(n, mapSizes.get(n) + 1);
+                if (mapSizes.get(n) > maxSize) maxSize = mapSizes.get(n);
             }
-        if (telorance * nodes.size() / mapSizes.size() < maxSize) return false;
+        double avgTelorance = (1 + telorance) * nodes.size() / mapSizes.size();
+        int avgInt = nodes.size() / mapSizes.size() + 1;
+        avgTelorance = Math.max(avgTelorance, avgInt);
+        if (avgTelorance < maxSize) return false;
         return true;
     }
 
