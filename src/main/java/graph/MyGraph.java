@@ -14,7 +14,7 @@ public class MyGraph {
     private static int totalYal = 0;
     public List<Integer> part = new ArrayList<>();
 
-    public MyGraph(List<MyNode> nodes,Integer partitionNumber) {
+    public MyGraph(List<MyNode> nodes, Integer partitionNumber) {
         this.nodes = nodes;
         this.partitionNumber = partitionNumber;
         for (MyNode n : nodes) {
@@ -64,7 +64,7 @@ public class MyGraph {
         for (int n = 0; n < nodes.size(); n++)
             for (Integer m : nodes.get(n).childs)
                 if (!part.get(n).equals(part.get(m - 1))) {
-                    tableCut[part.get(n)-1][part.get(m - 1) - 1]++;
+                    tableCut[part.get(n) - 1][part.get(m - 1) - 1]++;
                 }
         for (int t1 = 0; t1 < partitionNumber; t1++) {
             for (int t2 = 0; t2 < partitionNumber; t2++) {
@@ -86,9 +86,9 @@ public class MyGraph {
 
     public int totalCutSize() {
         int rslt = 0;
-        for (int m = 0; m < part.size(); m++) {
+        for (int m = 0; m < nodes.size(); m++) {
             for (Integer n : nodes.get(m).childs) {
-                if (part.get(m) != part.get(n - 1)) rslt++;
+                if (!part.get(m).equals(part.get(n - 1))) rslt++;
             }
         }
         /*for (Map.Entry<MyPair, Integer> entry : inp.entrySet()) {
@@ -127,7 +127,7 @@ public class MyGraph {
                     hops++;
                     lastPartition = part.get(list.get(t1));
                 }
-                if (n - 1 == t1) break;
+                if ((n - 1) == list.get(t1)) break;
             }
             //if n not be in list{
             if (!(t1 < list.size())) {
