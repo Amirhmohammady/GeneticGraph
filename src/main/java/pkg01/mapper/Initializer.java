@@ -30,9 +30,8 @@ public class Initializer {
                 partNumbers.add(new Integer(myNodes2.get(z1).part));
             }
 //            rslt.childs = myNodes.stream().map(n -> Mapper.mapNull(n)).collect(Collectors.toList());
-            rslt = new MyGraph(myNodes, 4);
-            rslt.part = partNumbers;
-        } catch (IOException e) {
+            rslt = new MyGraph(myNodes, 4, partNumbers);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return rslt;

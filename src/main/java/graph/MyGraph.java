@@ -13,29 +13,36 @@ public class MyGraph {
     public static List<MyNode> nodes = new ArrayList<>();
     private static int totalYal = 0;
     public List<Integer> part = new ArrayList<>();
+    private int maxHop;
 
     public MyGraph(List<Integer> part) throws Exception {
-        if (part.size() < nodes.size()) throw new Exception("partition size is less than " + nodes.size())
-        this.part = new ArrayList<>(part.size());
+        if (part.size() < nodes.size()) throw new Exception("partition size is less than " + nodes.size());
+        this.part = new ArrayList<>(nodes.size());
         for (Integer i : part)
             this.part.add(i);
+        maxHop = calculateMaxHop();
     }
 
     public MyGraph(int... part) throws Exception {
-        if (part.length < nodes.size()) throw new Exception("partition size is less than " + nodes.size())
-        this.part = new ArrayList<>(part.size());
+        if (part.length < nodes.size()) throw new Exception("partition size is less than " + nodes.size());
+        this.part = new ArrayList<>(nodes.size());
         for (Integer i : part)
             this.part.add(i);
+        maxHop = calculateMaxHop();
     }
 
-    public MyGraph(List<MyNode> nodes, Integer partitionNumber) {
+    public MyGraph(List<MyNode> nodes, Integer partitionNumber, List<Integer> part) throws Exception {
         this.nodes = nodes;
         this.partitionNumber = partitionNumber;
         for (MyNode n : nodes) {
             //if (n.part > partitionNumber) partitionNumber = n.part;
             totalYal += n.childs.size();
         }
-
+        if (part.size() < nodes.size()) throw new Exception("partition size is less than " + nodes.size());
+        this.part = new ArrayList<>(nodes.size());
+        for (Integer i : part)
+            this.part.add(i);
+        maxHop = calculateMaxHop();
     }
 
     public MyGraph(MyGraph inp) {
@@ -44,6 +51,7 @@ public class MyGraph {
             part.add(new Integer(0));
             part.set(t1, inp.part.get(t1));
         }
+        maxHop = calculateMaxHop();
     }
 
     /*static MyGraph copyMyGraph(MyGraph inp){
@@ -119,8 +127,11 @@ public class MyGraph {
         }
         return rslt;
     }*/
-
     public int getMaxHop() {
+        return maxHop;
+    }
+
+    private int calculateMaxHop() {
         Pointer<Integer> maxHop = new Pointer<>(new Integer(0));
         for (int n = 0; n < nodes.size(); n++) {
             if (nodes.get(n).isBlocking) {
