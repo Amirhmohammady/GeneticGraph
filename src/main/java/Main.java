@@ -19,5 +19,6 @@ public class Main {
         MyGraph mg2 = new MyGraph(mg);
         MyGenetic myGenetic2 = new MyGenetic(mg2);
         System.out.println("score mg2: " + myGenetic2.getScore());
+        //MyGraph mg3 = new MyGraph({);
     }
 }

@@ -14,6 +14,20 @@ public class MyGraph {
     private static int totalYal = 0;
     public List<Integer> part = new ArrayList<>();
 
+    public MyGraph(List<Integer> part) throws Exception {
+        if (part.size() < nodes.size()) throw new Exception("partition size is less than " + nodes.size())
+        this.part = new ArrayList<>(part.size());
+        for (Integer i : part)
+            this.part.add(i);
+    }
+
+    public MyGraph(int... part) throws Exception {
+        if (part.length < nodes.size()) throw new Exception("partition size is less than " + nodes.size())
+        this.part = new ArrayList<>(part.size());
+        for (Integer i : part)
+            this.part.add(i);
+    }
+
     public MyGraph(List<MyNode> nodes, Integer partitionNumber) {
         this.nodes = nodes;
         this.partitionNumber = partitionNumber;
@@ -21,6 +35,7 @@ public class MyGraph {
             //if (n.part > partitionNumber) partitionNumber = n.part;
             totalYal += n.childs.size();
         }
+
     }
 
     public MyGraph(MyGraph inp) {
